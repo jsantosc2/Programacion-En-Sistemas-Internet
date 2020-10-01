@@ -1,0 +1,24 @@
+let a:object={B:2,c:[1,2,3,4,5] }
+let b:object={B:3,c:[1,2,3,4,5], F:7 }
+
+let c=Object.keys(a)
+let d=Object.keys(b)
+
+let deepEqual=(a:object, b:object, i:number):boolean=>{
+    let c:string[]=Object.keys(a)
+    let d:string[]=Object.keys(b)
+    if(d.length!=c.length){
+        return false
+    }else{
+        if(i==c.length){
+            return true;
+        }else{
+            if(c[i]!=d[i]){
+                return false;
+            }
+        }
+    i+=1;
+    return deepEqual(a,b,i);
+    }
+}
+console.log(deepEqual(a,{f:2},0))
