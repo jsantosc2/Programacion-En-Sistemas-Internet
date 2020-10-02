@@ -52,7 +52,7 @@ const Persona2={
 }
 let Persona3={}
 
-const deepPrint=(a:Object)=>{
+const deepPrint=(a:Object):void=>{
     let l=Object.keys(a)
     l.forEach(key=>{
         if(Array.isArray(a[key])){
