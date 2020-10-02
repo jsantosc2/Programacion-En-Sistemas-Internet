@@ -1,12 +1,73 @@
-let a:object={B:2,c:[1,2,3,4,5] }
-let b:object={B:3,c:[1,2,3,4,5], F:7 }
+const Persona={
+    nombre:"juan",
+    
+    amigos:[
+        {
+            nombre:"PEPE",
+            edad:12,
+            familia:[
+                {
+                    nombre:"Valero",
+                    edad:81
+                },
+                {
+                    nnombre:"Valero2",
+                    edad:812
+                }
+            ]
+        },
+        {
+            nombre:"MAria",
+            edad:19
+        }
+    ],
+    edad:2
+    
+}
+const Persona2={
+    nombre:"juan",
+    
+    amigos:[
+        {
+            nombre2:"PEPE3",
+            edad:12,
+            familia:[
+                {
+                    nombre:"Valero",
+                    edad:81
+                },
+                {
+                    nnombre:"Valero2",
+                    edad:812
+                }
+            ]
+        },
+        {
+            nombre:"MAria",
+            edad:19
+        }
+    ],
+        edad:2
+    
+}
+let Persona3={}
 
-let c=Object.keys(a)
-let d=Object.keys(b)
+const deepPrint=(a:Object)=>{
+    let l=Object.keys(a)
+    l.forEach(key=>{
+        if(Array.isArray(a[key])){
+            for(let i of a[key]){
+               deepPrint(i)
+            }
+        }else if(typeof(a[key]===Object)){
+            console.log(a[key])
+        }
+  })
+}
 
-let deepEqual=(a:object, b:object, i:number):boolean=>{
-    let c:string[]=Object.keys(a)
-    let d:string[]=Object.keys(b)
+const deepEqual=(a:Object, b:Object, i:number):boolean=>{
+    let c=Object.keys(a)
+    let d=Object.keys(b)
     if(d.length!=c.length){
         return false
     }else{
@@ -16,9 +77,35 @@ let deepEqual=(a:object, b:object, i:number):boolean=>{
             if(c[i]!=d[i]){
                 return false;
             }
-        }
+            if(Array.isArray(a[c[i]]) && Array.isArray(b[d[i]])){    
+                 for(let v=0;v<a[c[i]].length;v++){
+                   return deepEqual(a[c[i]][v],b[d[i]][v],0)
+                }
+            }
+            }
     i+=1;
     return deepEqual(a,b,i);
     }
 }
-console.log(deepEqual(a,{f:2},0))
+
+
+const deepClone=(a:Object):Object=>{
+  let copia={}
+  for(let i in a){
+      let valor = a[i] 
+      if(typeof (valor != "object")){
+          copia[i]=valor
+      }else{
+          copia[i]=deepClone(valor)
+      }
+  }
+ deepPrint(copia)
+  return copia
+}
+
+
+//Persona3 es una copia de Persona
+Persona3=deepClone(Persona)
+deepPrint(Persona3)
+//Caso De dos Objetos diferentes
+console.log(deepEqual(Persona,Persona2,0))
